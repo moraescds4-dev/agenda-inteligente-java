@@ -1,0 +1,70 @@
+# ========================
+# Compilados Java
+# ========================
+*.class
+*.jar
+*.war
+*.ear
+
+# ========================
+# Maven
+# ========================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+dependency-reduced-pom.xml
+
+# ========================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# ========================
+# Eclipse (caso alguém clone em Eclipse)
+# ========================
+.project
+.classpath
+.settings/
+.factorypath
+bin/
+
+# ========================
+# VS Code
+# ========================
+.vscode/
+
+# ========================
+# Banco SQLite local
+# Não subimos o banco com dados reais
+# ========================
+*.db
+*.sqlite
+*.sqlite3
+agenda.db
+
+# ========================
+# Logs
+# ========================
+*.log
+logs/
+
+# ========================
+# Sistema operacional
+# ========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ========================
+# Temporários
+# ========================
+*.tmp
+*.bak
+*.swp
+*~
