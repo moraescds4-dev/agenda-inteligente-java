@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="br.com.agendainteligente.controller.TelaAgendaController"
+      spacing="16" styleClass="conteudo">
+
+    <!-- Cabeçalho -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Label text="📅 Agenda do Dia" styleClass="titulo-secao"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <DatePicker fx:id="datePicker" onAction="#gerarAgenda"/>
+        <Button text="Gerar Agenda" styleClass="btn-primario"
+                onAction="#gerarAgenda"/>
+    </HBox>
+
+    <!-- Caixa de sugestão do agendador -->
+    <VBox fx:id="boxSugestao" styleClass="sugestao-box" spacing="4">
+        <Label text="🤖 Agora você pode fazer:" styleClass="sugestao-titulo"/>
+        <Label fx:id="lblSugestao" text="Gere a agenda para ver a sugestão"
+               styleClass="sugestao-tarefa"/>
+    </VBox>
+
+    <!-- Tabela da agenda -->
+    <TableView fx:id="tabelaAgenda" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colHorario"   text="Horário"    prefWidth="130"/>
+            <TableColumn fx:id="colTipo"      text="Tipo"       prefWidth="110"/>
+            <TableColumn fx:id="colAtividade" text="Atividade"  prefWidth="320"/>
+            <TableColumn fx:id="colStatus"    text="Status"     prefWidth="110"/>
+            <TableColumn fx:id="colDuracao"   text="Duração"    prefWidth="90"/>
+        </columns>
+    </TableView>
+
+</VBox>

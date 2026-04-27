@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="br.com.agendainteligente.controller.TelaTarefasController"
+      spacing="16" styleClass="conteudo">
+
+    <!-- Cabeçalho -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Label text="✅ Minhas Tarefas" styleClass="titulo-secao"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="+ Nova Tarefa" styleClass="btn-primario"
+                onAction="#abrirFormNovaTarefa"/>
+    </HBox>
+
+    <!-- Formulário de cadastro -->
+    <VBox fx:id="painelForm" styleClass="card" spacing="12"
+          managed="false" visible="false">
+
+        <Label text="Nova Tarefa" styleClass="subtitulo"/>
+
+        <HBox spacing="12">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="Título *" styleClass="label-campo"/>
+                <TextField fx:id="txtTitulo" styleClass="campo"
+                           promptText="Ex: Estudar Java"/>
+            </VBox>
+            <VBox spacing="4">
+                <Label text="Duração (min) *" styleClass="label-campo"/>
+                <TextField fx:id="txtDuracao" styleClass="campo"
+                           promptText="Ex: 60" prefWidth="110"/>
+            </VBox>
+        </HBox>
+
+        <HBox spacing="12">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="Categoria" styleClass="label-campo"/>
+                <TextField fx:id="txtCategoria" styleClass="campo"
+                           promptText="Ex: Estudos"/>
+            </VBox>
+            <VBox spacing="4">
+                <Label text="Prioridade *" styleClass="label-campo"/>
+                <ComboBox fx:id="cbPrioridade" prefWidth="130"
+                          styleClass="campo"/>
+            </VBox>
+            <VBox spacing="4">
+                <Label text="Prazo" styleClass="label-campo"/>
+                <DatePicker fx:id="datePrazo" prefWidth="150"/>
+            </VBox>
+        </HBox>
+
+        <VBox spacing="4">
+            <Label text="Descrição" styleClass="label-campo"/>
+            <TextArea fx:id="txtDescricao" styleClass="campo"
+                      promptText="Detalhes opcionais..."
+                      prefHeight="70" wrapText="true"/>
+        </VBox>
+
+        <HBox spacing="8" alignment="CENTER_RIGHT">
+            <Button text="Cancelar" styleClass="btn-secundario"
+                    onAction="#fecharForm"/>
+            <Button text="Salvar Tarefa" styleClass="btn-primario"
+                    onAction="#salvarTarefa"/>
+        </HBox>
+
+    </VBox>
+
+    <!-- Tabela de tarefas -->
+    <TableView fx:id="tabelaTarefas" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colTitulo"      text="Título"      prefWidth="220"/>
+            <TableColumn fx:id="colCategoria"   text="Categoria"   prefWidth="110"/>
+            <TableColumn fx:id="colPrioridade"  text="Prioridade"  prefWidth="100"/>
+            <TableColumn fx:id="colDuracao"     text="Duração"     prefWidth="90"/>
+            <TableColumn fx:id="colPrazo"       text="Prazo"       prefWidth="100"/>
+            <TableColumn fx:id="colStatusT"     text="Status"      prefWidth="100"/>
+            <TableColumn fx:id="colAcoes"       text="Ações"       prefWidth="130"/>
+        </columns>
+    </TableView>
+
+</VBox>

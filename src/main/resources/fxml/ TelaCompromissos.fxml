@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="br.com.agendainteligente.controller.TelaCompromissosController"
+      spacing="16" styleClass="conteudo">
+
+    <!-- Cabeçalho -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Label text="📌 Compromissos Fixos" styleClass="titulo-secao"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="+ Novo Compromisso" styleClass="btn-primario"
+                onAction="#abrirFormNovoCompromisso"/>
+    </HBox>
+
+    <!-- Formulário de cadastro -->
+    <VBox fx:id="painelForm" styleClass="card" spacing="12"
+          managed="false" visible="false">
+
+        <Label text="Novo Compromisso" styleClass="subtitulo"/>
+
+        <HBox spacing="12">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="Título *" styleClass="label-campo"/>
+                <TextField fx:id="txtTitulo" styleClass="campo"
+                           promptText="Ex: Aula de Java"/>
+            </VBox>
+            <VBox spacing="4">
+                <Label text="Tipo *" styleClass="label-campo"/>
+                <ComboBox fx:id="cbTipo" prefWidth="140" styleClass="campo"/>
+            </VBox>
+        </HBox>
+
+        <HBox spacing="12">
+            <VBox spacing="4">
+                <Label text="Data *" styleClass="label-campo"/>
+                <DatePicker fx:id="dateData" prefWidth="160"/>
+            </VBox>
+            <VBox spacing="4">
+                <Label text="Hora Início *" styleClass="label-campo"/>
+                <TextField fx:id="txtHoraInicio" styleClass="campo"
+                           promptText="HH:mm" prefWidth="100"/>
+            </VBox>
+            <VBox spacing="4">
+                <Label text="Hora Fim *" styleClass="label-campo"/>
+                <TextField fx:id="txtHoraFim" styleClass="campo"
+                           promptText="HH:mm" prefWidth="100"/>
+            </VBox>
+        </HBox>
+
+        <VBox spacing="4">
+            <Label text="Descrição" styleClass="label-campo"/>
+            <TextArea fx:id="txtDescricao" styleClass="campo"
+                      promptText="Detalhes opcionais..."
+                      prefHeight="60" wrapText="true"/>
+        </VBox>
+
+        <HBox spacing="8" alignment="CENTER_RIGHT">
+            <Button text="Cancelar" styleClass="btn-secundario"
+                    onAction="#fecharForm"/>
+            <Button text="Salvar Compromisso" styleClass="btn-primario"
+                    onAction="#salvarCompromisso"/>
+        </HBox>
+
+    </VBox>
+
+    <!-- Tabela de compromissos -->
+    <TableView fx:id="tabelaCompromissos" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colTitulo"    text="Título"      prefWidth="200"/>
+            <TableColumn fx:id="colTipo"      text="Tipo"        prefWidth="100"/>
+            <TableColumn fx:id="colData"      text="Data"        prefWidth="100"/>
+            <TableColumn fx:id="colInicio"    text="Início"      prefWidth="80"/>
+            <TableColumn fx:id="colFim"       text="Fim"         prefWidth="80"/>
+            <TableColumn fx:id="colDuracao"   text="Duração"     prefWidth="80"/>
+            <TableColumn fx:id="colAcoes"     text="Ações"       prefWidth="90"/>
+        </columns>
+    </TableView>
+
+</VBox>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="br.com.agendainteligente.controller.TelaPrincipalController"
+            prefWidth="900" prefHeight="600">
+
+    <!-- BARRA LATERAL ESQUERDA -->
+    <left>
+        <VBox styleClass="sidebar" prefWidth="200">
+
+            <!-- Logo / Título -->
+            <Label text="🧠 Agenda" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Label text="Inteligente" style="-fx-font-size: 13px; -fx-text-fill: #95a5a6;"/>
+
+            <Separator style="-fx-background-color: #34495e;" VBox.vgrow="NEVER">
+                <VBox.margin><Insets top="12" bottom="12"/></VBox.margin>
+            </Separator>
+
+            <!-- Botões de navegação -->
+            <Button fx:id="btnAgenda" text="📅  Agenda do Dia"
+                    styleClass="btn-menu, btn-menu-ativo"
+                    onAction="#mostrarAgenda"/>
+
+            <Button fx:id="btnTarefas" text="✅  Minhas Tarefas"
+                    styleClass="btn-menu"
+                    onAction="#mostrarTarefas"/>
+
+            <Button fx:id="btnCompromissos" text="📌  Compromissos"
+                    styleClass="btn-menu"
+                    onAction="#mostrarCompromissos"/>
+
+            <Button fx:id="btnConfiguracoes" text="⚙️  Configurações"
+                    styleClass="btn-menu"
+                    onAction="#mostrarConfiguracoes"/>
+
+            <!-- Espaço empurrando o rodapé para baixo -->
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <!-- Rodapé da sidebar -->
+            <Label fx:id="lblUsuario" text="Usuário"
+                   style="-fx-text-fill: #95a5a6; -fx-font-size: 12px;"/>
+
+        </VBox>
+    </left>
+
+    <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
+    <center>
+        <StackPane fx:id="painelConteudo" styleClass="conteudo">
+            <!-- O conteúdo de cada seção será carregado aqui dinamicamente -->
+            <Label text="Carregando..." style="-fx-text-fill: #95a5a6;"/>
+        </StackPane>
+    </center>
+
+</BorderPane>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="br.com.agendainteligente.controller.TelaConfiguracoesController"
+      spacing="16" styleClass="conteudo">
+
+    <!-- Cabeçalho -->
+    <HBox alignment="CENTER_LEFT">
+        <Label text="⚙️ Configurações da Rotina" styleClass="titulo-secao"/>
+    </HBox>
+
+    <Label text="Defina seus horários pessoais. O agendador vai respeitá-los ao montar seu dia."
+           styleClass="subtitulo"/>
+
+    <!-- Card de configuração -->
+    <VBox styleClass="card" spacing="16">
+
+        <Label text="🕐 Horário do Dia" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+        <HBox spacing="24">
+            <VBox spacing="4">
+                <Label text="Início do dia *" styleClass="label-campo"/>
+                <TextField fx:id="txtInicioDia" styleClass="campo"
+                           promptText="HH:mm" prefWidth="120"/>
+            </VBox>
+            <VBox spacing="4">
+                <Label text="Fim do dia *" styleClass="label-campo"/>
+                <TextField fx:id="txtFimDia" styleClass="campo"
+                           promptText="HH:mm" prefWidth="120"/>
+            </VBox>
+        </HBox>
+
+        <Separator/>
+
+        <Label text="🍽️ Almoço" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+        <HBox spacing="24">
+            <VBox spacing="4">
+                <Label text="Início do almoço *" styleClass="label-campo"/>
+                <TextField fx:id="txtInicioAlmoco" styleClass="campo"
+                           promptText="HH:mm" prefWidth="120"/>
+            </VBox>
+            <VBox spacing="4">
+                <Label text="Fim do almoço *" styleClass="label-campo"/>
+                <TextField fx:id="txtFimAlmoco" styleClass="campo"
+                           promptText="HH:mm" prefWidth="120"/>
+            </VBox>
+        </HBox>
+
+        <Separator/>
+
+        <Label text="🌙 Descanso Noturno" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+        <HBox spacing="24">
+            <VBox spacing="4">
+                <Label text="Início do descanso *" styleClass="label-campo"/>
+                <TextField fx:id="txtInicioDescanso" styleClass="campo"
+                           promptText="HH:mm" prefWidth="120"/>
+            </VBox>
+        </HBox>
+
+        <Separator/>
+
+        <Label text="👤 Seu Nome" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+        <VBox spacing="4">
+            <Label text="Nome exibido no app" styleClass="label-campo"/>
+            <TextField fx:id="txtNome" styleClass="campo"
+                       promptText="Seu nome" prefWidth="250"/>
+        </VBox>
+
+        <HBox spacing="8" alignment="CENTER_RIGHT">
+            <Label fx:id="lblStatus" styleClass="subtitulo"/>
+            <Button text="Salvar Configurações" styleClass="btn-primario"
+                    onAction="#salvarConfiguracoes"/>
+        </HBox>
+
+    </VBox>
+
+</VBox>

@@ -1,0 +1,199 @@
+/* =====================================================
+   AGENDA INTELIGENTE — Estilo global
+   ===================================================== */
+
+* {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Fundo geral da aplicação */
+.root {
+    -fx-background-color: #f4f6f9;
+}
+
+/* Barra lateral */
+.sidebar {
+    -fx-background-color: #2c3e50;
+    -fx-padding: 20;
+    -fx-spacing: 8;
+}
+
+/* Botões da barra lateral */
+.btn-menu {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ecf0f1;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER-LEFT;
+    -fx-padding: 10 16;
+    -fx-cursor: hand;
+    -fx-pref-width: 180;
+    -fx-background-radius: 6;
+}
+
+.btn-menu:hover {
+    -fx-background-color: #34495e;
+}
+
+.btn-menu-ativo {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+/* Área de conteúdo principal */
+.conteudo {
+    -fx-background-color: #f4f6f9;
+    -fx-padding: 24;
+}
+
+/* Cards */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 6, 0, 0, 2);
+}
+
+/* Títulos */
+.titulo-secao {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.subtitulo {
+    -fx-font-size: 13px;
+    -fx-text-fill: #7f8c8d;
+}
+
+/* Botão primário */
+.btn-primario {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-padding: 8 20;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.btn-primario:hover {
+    -fx-background-color: #2980b9;
+}
+
+/* Botão de perigo (excluir) */
+.btn-perigo {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-padding: 8 20;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.btn-perigo:hover {
+    -fx-background-color: #c0392b;
+}
+
+/* Botão secundário */
+.btn-secundario {
+    -fx-background-color: #ecf0f1;
+    -fx-text-fill: #2c3e50;
+    -fx-font-size: 13px;
+    -fx-padding: 8 20;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.btn-secundario:hover {
+    -fx-background-color: #bdc3c7;
+}
+
+/* Campos de formulário */
+.campo {
+    -fx-background-color: white;
+    -fx-border-color: #dde1e7;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 8 12;
+    -fx-font-size: 13px;
+    -fx-pref-height: 36;
+}
+
+.campo:focused {
+    -fx-border-color: #3498db;
+}
+
+/* Labels de formulário */
+.label-campo {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #555e6d;
+}
+
+/* Tabelas */
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f8f9fa;
+    -fx-font-weight: bold;
+    -fx-text-fill: #555e6d;
+    -fx-font-size: 12px;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #ebf5fb;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Tags de prioridade */
+.tag-alta {
+    -fx-background-color: #fde8e8;
+    -fx-text-fill: #c0392b;
+    -fx-background-radius: 4;
+    -fx-padding: 2 8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.tag-media {
+    -fx-background-color: #fef9e7;
+    -fx-text-fill: #d68910;
+    -fx-background-radius: 4;
+    -fx-padding: 2 8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.tag-baixa {
+    -fx-background-color: #e8f8f5;
+    -fx-text-fill: #1e8449;
+    -fx-background-radius: 4;
+    -fx-padding: 2 8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+/* Bloco de sugestão do agendador */
+.sugestao-box {
+    -fx-background-color: #ebf5fb;
+    -fx-background-radius: 8;
+    -fx-padding: 16;
+    -fx-border-color: #3498db;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+}
+
+.sugestao-titulo {
+    -fx-font-size: 13px;
+    -fx-text-fill: #2980b9;
+    -fx-font-weight: bold;
+}
+
+.sugestao-tarefa {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
