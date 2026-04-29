@@ -115,11 +115,17 @@ public class BlocoDeTempo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BlocoDeTempo b)) return false;
-        return Objects.equals(id, b.id);
+        // Se ambos têm id, compara por id (blocos persistidos)
+        if (id != null && b.id != null) return id.equals(b.id);
+        // Senão, compara por identidade de referência (blocos em memória)
+        return false;
     }
 
     @Override
-    public int hashCode() { return Objects.hash(id); }
+    public int hashCode() {
+        // Usa identidade do objeto quando não há id, evitando colisão entre blocos novos
+        return id != null ? id.hashCode() : System.identityHashCode(this);
+    }
 
     @Override
     public String toString() {

@@ -44,6 +44,10 @@ public class AgendaDiaria {
         blocos.remove(bloco);
     }
 
+    public void limparBlocos() {
+        blocos.clear();
+    }
+
     /**
      * Retorna apenas os blocos que estão livres para receber tarefas.
      */

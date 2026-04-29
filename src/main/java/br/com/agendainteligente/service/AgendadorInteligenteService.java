@@ -41,8 +41,17 @@ public class AgendadorInteligenteService {
      */
     public void bloquearCompromissos(AgendaDiaria agenda,
                                      List<CompromissoFixo> compromissos) {
+        System.out.println(">>> bloquearCompromissos chamado com: " + compromissos.size());
         for (CompromissoFixo compromisso : compromissos) {
-            if (!compromisso.validarHorario()) continue;
+            System.out.println("    processando: " + compromisso.getTitulo()
+                    + " inicio=" + compromisso.getHoraInicio()
+                    + " fim=" + compromisso.getHoraFim()
+                    + " valido=" + compromisso.validarHorario());
+
+            if (!compromisso.validarHorario()) {
+                System.out.println("    IGNORADO — horário inválido!");
+                continue;
+            }
 
             BlocoDeTempo bloco = new BlocoDeTempo(
                     compromisso.getHoraInicio(),
@@ -51,6 +60,7 @@ public class AgendadorInteligenteService {
             );
             bloco.associarCompromisso(compromisso);
             agenda.adicionarBloco(bloco);
+            System.out.println("    ADICIONADO ao bloco.");
         }
     }
     /**
@@ -90,37 +100,37 @@ public class AgendadorInteligenteService {
      * Esses são os espaços onde as tarefas vão ser encaixadas.
      */
     public void identificarBlocosLivres(AgendaDiaria agenda) {
-        LocalTime cursor = configuracaoRotina.getHoraInicioDia();
-        LocalTime fimDia = configuracaoRotina.getHoraInicioDescanso();
+        LocalTime agora = LocalTime.now().truncatedTo(java.time.temporal.ChronoUnit.MINUTES);
+        LocalTime inicioDia = configuracaoRotina.getHoraInicioDia();
+        LocalTime cursor = agenda.getData().equals(java.time.LocalDate.now())
+                ? (agora.isAfter(inicioDia) ? agora : inicioDia)
+                : inicioDia;
 
+        LocalTime fimDia = configuracaoRotina.getHoraInicioDescanso();
         if (cursor == null || fimDia == null) return;
 
-        // Pega todos os blocos ocupados e ordena por hora de início
         List<BlocoDeTempo> ocupados = agenda.getBlocos().stream()
                 .filter(b -> !b.estaLivre())
                 .sorted(Comparator.comparing(BlocoDeTempo::getHoraInicio))
                 .toList();
 
-        // Varre o dia procurando espaços entre os blocos ocupados
+        List<BlocoDeTempo> livres = new java.util.ArrayList<>();
+
         for (BlocoDeTempo ocupado : ocupados) {
+            if (!ocupado.getHoraFim().isAfter(cursor)) continue;
             if (cursor.isBefore(ocupado.getHoraInicio())) {
-                // Há um espaço livre entre o cursor e o início do próximo bloco ocupado
-                BlocoDeTempo livre = new BlocoDeTempo(
-                        cursor,
-                        ocupado.getHoraInicio(),
-                        TipoBloco.LIVRE
-                );
-                agenda.adicionarBloco(livre);
+                livres.add(new BlocoDeTempo(cursor, ocupado.getHoraInicio(), TipoBloco.LIVRE));
             }
-            // Avança o cursor para o fim do bloco ocupado
-            cursor = ocupado.getHoraFim();
+            if (ocupado.getHoraFim().isAfter(cursor)) {
+                cursor = ocupado.getHoraFim();
+            }
         }
 
-        // Verifica se sobrou espaço livre após o último bloco ocupado
         if (cursor.isBefore(fimDia)) {
-            BlocoDeTempo livre = new BlocoDeTempo(cursor, fimDia, TipoBloco.LIVRE);
-            agenda.adicionarBloco(livre);
+            livres.add(new BlocoDeTempo(cursor, fimDia, TipoBloco.LIVRE));
         }
+
+        livres.forEach(agenda::adicionarBloco);
     }
     /**
      * PASSO 6: Ordena as tarefas pendentes por urgência.
@@ -142,28 +152,18 @@ public class AgendadorInteligenteService {
      */
     public void distribuirTarefas(AgendaDiaria agenda, List<Tarefa> tarefasOrdenadas) {
         for (Tarefa tarefa : tarefasOrdenadas) {
-
-            // Procura o primeiro bloco livre que comporte essa tarefa
+            // Busca blocos livres atualizados a cada iteração
             BlocoDeTempo blocoEscolhido = agenda.getBlocos().stream()
                     .filter(b -> b.comportaTarefa(tarefa.getDuracaoEstimadaMinutos()))
-                    .findFirst()
+                    .min(Comparator.comparing(BlocoDeTempo::getHoraInicio))
                     .orElse(null);
 
             if (blocoEscolhido != null) {
-                // A tarefa cabe no bloco — vamos alocar
                 alocarTarefaNoBloco(agenda, blocoEscolhido, tarefa);
             }
-            // Se não encontrou bloco, a tarefa continua PENDENTE — sem erro, sem crash
         }
     }
 
-    /**
-     * Aloca uma tarefa num bloco livre, criando um novo bloco LIVRE
-     * com o tempo que sobrou (se houver sobra).
-     *
-     * Exemplo: bloco livre 10:00-12:00, tarefa de 90min
-     * Resultado: bloco TAREFA 10:00-11:30 + bloco LIVRE 11:30-12:00
-     */
     private void alocarTarefaNoBloco(AgendaDiaria agenda,
                                      BlocoDeTempo bloco,
                                      Tarefa tarefa) {
@@ -171,7 +171,7 @@ public class AgendadorInteligenteService {
         LocalTime fimTarefa = inicioTarefa.plusMinutes(tarefa.getDuracaoEstimadaMinutos());
         LocalTime fimBlocoOriginal = bloco.getHoraFim();
 
-        // Remove o bloco livre original da agenda
+        // Remove o bloco livre original
         agenda.removerBloco(bloco);
 
         // Cria o bloco ocupado com a tarefa
@@ -181,7 +181,7 @@ public class AgendadorInteligenteService {
         blocoTarefa.associarTarefa(tarefa);
         agenda.adicionarBloco(blocoTarefa);
 
-        // Se sobrou tempo no bloco, cria um novo bloco LIVRE com a sobra
+        // Se sobrou tempo, cria novo bloco LIVRE com a sobra
         if (fimTarefa.isBefore(fimBlocoOriginal)) {
             BlocoDeTempo sobra = new BlocoDeTempo(
                     fimTarefa, fimBlocoOriginal, TipoBloco.LIVRE
@@ -189,7 +189,6 @@ public class AgendadorInteligenteService {
             agenda.adicionarBloco(sobra);
         }
 
-        // Atualiza o status da tarefa para PLANEJADA
         tarefa.marcarComoPlanejada();
     }
     /**
@@ -225,26 +224,14 @@ public class AgendadorInteligenteService {
     public AgendaDiaria gerarAgendaDiaria(LocalDate data,
                                           List<CompromissoFixo> compromissos,
                                           List<Tarefa> tarefas) {
-
-        // Passo 1: cria a agenda vazia
         AgendaDiaria agenda = criarAgendaBase(data);
 
-        // Passo 2: bloqueia compromissos fixos do dia
         bloquearCompromissos(agenda, compromissos);
-
-        // Passo 3: bloqueia o almoço
         bloquearAlmoco(agenda);
-
-        // Passo 4: bloqueia o descanso noturno
         bloquearDescanso(agenda);
-
-        // Passo 5: identifica os espaços livres entre os blocos ocupados
         identificarBlocosLivres(agenda);
 
-        // Passo 6: ordena as tarefas por urgência (prioridade + prazo)
         List<Tarefa> tarefasOrdenadas = ordenarTarefas(tarefas);
-
-        // Passo 7: encaixa as tarefas nos blocos livres
         distribuirTarefas(agenda, tarefasOrdenadas);
 
         return agenda;

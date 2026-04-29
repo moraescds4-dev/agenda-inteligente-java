@@ -65,6 +65,12 @@ public class AgendaService {
         List<CompromissoFixo> compromissos = compromissoRepository
                 .buscarPorData(usuarioAtivo.getId(), data);
 
+        // LOG TEMPORÁRIO — mostra no console o que foi encontrado
+        System.out.println(">>> Data buscada: " + data);
+        System.out.println(">>> Compromissos encontrados: " + compromissos.size());
+        compromissos.forEach(c -> System.out.println("    - " + c.getTitulo()
+                + " | " + c.getData() + " | " + c.getHoraInicio()));
+
         List<Tarefa> tarefas = tarefaRepository
                 .buscarPendentes(usuarioAtivo.getId());
 
