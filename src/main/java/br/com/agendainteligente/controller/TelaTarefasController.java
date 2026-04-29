@@ -103,13 +103,15 @@ public class TelaTarefasController implements Initializable {
     }
 
     private void configurarTabela() {
-        colTitulo.setCellValueFactory(c ->
-                new SimpleStringProperty(c.getValue().getTitulo()));
+        colTitulo.setCellValueFactory( c ->
+                new SimpleStringProperty(
+                        br.com.agendainteligente.util.TextFormatter.titulo(c.getValue().getTitulo())));
 
-        colCategoria.setCellValueFactory(c ->
+        colCategoria.setCellValueFactory( c ->
                 new SimpleStringProperty(
                         c.getValue().getCategoria() != null
-                                ? c.getValue().getCategoria() : "—"));
+                                ? br.com.agendainteligente.util.TextFormatter.categoria(c.getValue().getCategoria())
+                                : "—"));
 
         colPrioridade.setCellValueFactory(c ->
                 new SimpleStringProperty(

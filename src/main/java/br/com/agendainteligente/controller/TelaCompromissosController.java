@@ -113,8 +113,9 @@ public class TelaCompromissosController implements Initializable {
     }
 
     private void configurarTabela() {
-        colTitulo.setCellValueFactory(c ->
-                new SimpleStringProperty(c.getValue().getTitulo()));
+        colTitulo.setCellValueFactory( c ->
+                new SimpleStringProperty(
+                        br.com.agendainteligente.util.TextFormatter.titulo(c.getValue().getTitulo())));
 
         colTipo.setCellValueFactory(c ->
                 new SimpleStringProperty(

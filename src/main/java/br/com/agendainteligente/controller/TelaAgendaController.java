@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -38,6 +37,9 @@ public class TelaAgendaController implements Initializable {
         agendaService = Main.getAgendaService();
         datePicker.setValue(LocalDate.now());
         configurarTabela();
+        datePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) gerarAgenda();
+        });
         gerarAgenda();
     }
 
@@ -49,15 +51,11 @@ public class TelaAgendaController implements Initializable {
 
             AgendaDiaria agenda = agendaService.gerarAgenda(data);
 
-            // Ordena blocos por hora de início
-            List<BlocoDeTempo> blocos = agenda.getBlocos()
-                    .stream()
-                    .sorted(Comparator.comparing(BlocoDeTempo::getHoraInicio))
-                    .toList();
+            List<BlocoDeTempo> blocos = new java.util.ArrayList<>(agenda.getBlocos());
+            blocos.sort(Comparator.comparing(BlocoDeTempo::getHoraInicio));
 
             tabelaAgenda.setItems(FXCollections.observableArrayList(blocos));
 
-            // Atualiza sugestão
             Tarefa proxima = agendaService.sugerirProximaTarefa(data);
             if (proxima != null) {
                 lblSugestao.setText(proxima.getTitulo()
@@ -87,9 +85,11 @@ public class TelaAgendaController implements Initializable {
         colAtividade.setCellValueFactory(c -> {
             BlocoDeTempo b = c.getValue();
             if (b.getTarefa() != null)
-                return new SimpleStringProperty(b.getTarefa().getTitulo());
+                return new SimpleStringProperty(
+                        br.com.agendainteligente.util.TextFormatter.titulo(b.getTarefa().getTitulo()));
             if (b.getCompromisso() != null)
-                return new SimpleStringProperty(b.getCompromisso().getTitulo());
+                return new SimpleStringProperty(
+                        br.com.agendainteligente.util.TextFormatter.titulo(b.getCompromisso().getTitulo()));
             return new SimpleStringProperty("—");
         });
 
