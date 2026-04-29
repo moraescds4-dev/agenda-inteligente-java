@@ -76,7 +76,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>br.com.agendainteligente.view.MainApp</mainClass>
+                    <mainClass>br.com.agendainteligente.Main</mainClass>
                 </configuration>
             </plugin>
 
@@ -87,6 +87,7 @@
                 <version>3.5.0</version>
             </plugin>
         </plugins>
+
     </build>
 
 </project>

@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.net.URL;
 
 /**
  * Ponto de entrada do aplicativo Agenda Inteligente.
@@ -18,19 +19,25 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        // Passo 1: inicializa o banco e cria as tabelas se necessário
         DatabaseInitializer.inicializar();
 
-        // Passo 2: carrega ou cria o usuário padrão
         agendaService = new AgendaService();
         agendaService.inicializar("Usuário");
 
-        // Passo 3: abre a tela principal
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/fxml/TelaPrincipal.fxml"));
+        System.out.println(">>> Classpath: " + System.getProperty("java.class.path"));
+        System.out.println(">>> Raiz dos recursos: " + getClass().getResource("/"));
+
+        URL fxmlUrl = getClass().getResource("/fxml/TelaPrincipal.fxml");
+        if (fxmlUrl == null) {
+            throw new RuntimeException("TelaPrincipal.fxml não encontrado!");
+        }
+        FXMLLoader loader = new FXMLLoader(fxmlUrl);
         Scene scene = new Scene(loader.load(), 900, 600);
-        scene.getStylesheets().add(
-                getClass().getResource("/css/estilo.css").toExternalForm());
+
+        URL cssUrl = getClass().getResource("/css/estilo.css");
+        if (cssUrl != null) {
+            scene.getStylesheets().add(cssUrl.toExternalForm());
+        }
 
         stage.setTitle("Agenda Inteligente");
         stage.setScene(scene);

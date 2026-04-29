@@ -54,13 +54,18 @@ public class DatabaseInitializer {
     private static void executarScript(String sql) throws SQLException {
         Connection conn = DatabaseConfig.getConexao();
 
-        // Divide por ";" e executa cada comando separadamente
+        // Remove comentários e divide por ";"
         String[] comandos = sql.split(";");
 
         try (Statement stmt = conn.createStatement()) {
             for (String comando : comandos) {
-                String limpo = comando.strip();
-                if (!limpo.isEmpty() && !limpo.startsWith("--")) {
+                // Remove comentários linha a linha
+                String limpo = java.util.Arrays.stream(comando.split("\n"))
+                        .filter(linha -> !linha.strip().startsWith("--"))
+                        .collect(java.util.stream.Collectors.joining("\n"))
+                        .strip();
+
+                if (!limpo.isEmpty()) {
                     stmt.execute(limpo);
                 }
             }
